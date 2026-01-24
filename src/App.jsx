@@ -23,46 +23,33 @@ function App() {
 
     let loadedCount = 0;
     const totalImages = imagesToPreload.length;
-    let progressInterval;
 
-    // Simulate progress movement while loading
-    const simulateProgress = () => {
-      progressInterval = setInterval(() => {
-        setLoadingProgress((prev) => {
-          if (prev < 90) {
-            return prev + Math.random() * 15;
-          }
-          return prev;
-        });
-      }, 300);
-    };
-
-    simulateProgress();
+    // Animate bar for 7 seconds
+    gsap.to({progress: 0}, {
+      progress: 100,
+      duration: 7,
+      onUpdate: function() {
+        setLoadingProgress(Math.round(this.targets()[0].progress));
+      },
+      ease: "power1.inOut"
+    });
 
     imagesToPreload.forEach((src) => {
       const img = new Image();
       img.onload = () => {
         loadedCount++;
-        setLoadingProgress((loadedCount / totalImages) * 100);
         if (loadedCount === totalImages) {
-          clearInterval(progressInterval);
-          setLoadingProgress(100);
           setTimeout(() => setResourcesLoaded(true), 500);
         }
       };
       img.onerror = () => {
         loadedCount++;
-        setLoadingProgress((loadedCount / totalImages) * 100);
         if (loadedCount === totalImages) {
-          clearInterval(progressInterval);
-          setLoadingProgress(100);
           setTimeout(() => setResourcesLoaded(true), 500);
         }
       };
       img.src = src;
     });
-
-    return () => clearInterval(progressInterval);
   }, []);
 
   useGSAP(() => {
