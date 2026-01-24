@@ -24,15 +24,19 @@ function App() {
     let loadedCount = 0;
     const totalImages = imagesToPreload.length;
 
-    // Animate bar for 7 seconds
-    gsap.to({progress: 0}, {
-      progress: 100,
-      duration: 7,
-      onUpdate: function() {
-        setLoadingProgress(Math.round(this.targets()[0].progress));
-      },
-      ease: "power1.inOut"
-    });
+    // Simple 7 second progress bar animation
+    const startTime = Date.now();
+    const duration = 7000; // 7 seconds in ms
+    
+    const progressInterval = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min((elapsed / duration) * 100, 100);
+      setLoadingProgress(progress);
+      
+      if (progress >= 100) {
+        clearInterval(progressInterval);
+      }
+    }, 50);
 
     imagesToPreload.forEach((src) => {
       const img = new Image();
@@ -50,6 +54,8 @@ function App() {
       };
       img.src = src;
     });
+
+    return () => clearInterval(progressInterval);
   }, []);
 
   useGSAP(() => {
