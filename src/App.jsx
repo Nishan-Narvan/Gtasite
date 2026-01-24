@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import 'remixicon/fonts/remixicon.css';
@@ -8,6 +8,77 @@ import 'remixicon/fonts/remixicon.css';
 function App() {
 
   let[showContent, setShowContent] = useState(false);
+  const [resourcesLoaded, setResourcesLoaded] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+
+  // Preload all critical images
+  useEffect(() => {
+    const imagesToPreload = [
+      '/bg.png',
+      '/sky.png',
+      '/girlbg.png',
+      '/ps5.png',
+      '/imag.png'
+    ];
+
+    let loadedCount = 0;
+    const totalImages = imagesToPreload.length;
+    let progressInterval;
+
+    // Simulate progress movement while loading
+    const simulateProgress = () => {
+      progressInterval = setInterval(() => {
+        setLoadingProgress((prev) => {
+          if (prev < 90) {
+            return prev + Math.random() * 15;
+          }
+          return prev;
+        });
+      }, 300);
+    };
+
+    simulateProgress();
+
+    imagesToPreload.forEach((src) => {
+      const img = new Image();
+      img.onload = () => {
+        loadedCount++;
+        setLoadingProgress((loadedCount / totalImages) * 100);
+        if (loadedCount === totalImages) {
+          clearInterval(progressInterval);
+          setLoadingProgress(100);
+          setTimeout(() => setResourcesLoaded(true), 500);
+        }
+      };
+      img.onerror = () => {
+        loadedCount++;
+        setLoadingProgress((loadedCount / totalImages) * 100);
+        if (loadedCount === totalImages) {
+          clearInterval(progressInterval);
+          setLoadingProgress(100);
+          setTimeout(() => setResourcesLoaded(true), 500);
+        }
+      };
+      img.src = src;
+    });
+
+    return () => clearInterval(progressInterval);
+  }, []);
+
+  useGSAP(() => {
+    if (!resourcesLoaded) return;
+    
+    // Animate loading screen out
+    gsap.to(".loading-screen", {
+      opacity: 0,
+      duration: 0.8,
+      ease: "Power2.easeInOut",
+      onComplete: () => {
+        document.querySelector(".loading-screen").style.pointerEvents = "none";
+      }
+    });
+  }, [resourcesLoaded]);
+
   useGSAP(() => {
     // Vi ko aage lane ke liye
     const tl = gsap.timeline();
@@ -36,13 +107,11 @@ function App() {
       }
       }
     })
-
-
   });
 
   useGSAP(()=>{
 
-   if(!showContent) return;
+   if(!showContent || !resourcesLoaded) return;
 
    gsap.to(".main",{
   scale:1,
@@ -107,6 +176,21 @@ function App() {
   },[showContent]);
   return (
     <>
+      {/* Loading Screen */}
+      <div className="loading-screen fixed top-0 left-0 z-[150] w-full h-screen flex flex-col items-center justify-center bg-black">
+        <div className="mb-16 text-center">
+          <h2 className="text-white text-7xl font-bold mb-6">GTA VI</h2>
+          <p className="text-gray-300 text-2xl">Loading...</p>
+        </div>
+        <div className="w-96 h-2 bg-gray-800 rounded-full overflow-hidden mb-6">
+          <div 
+            className="h-full bg-yellow-600 transition-all duration-300 ease-out"
+            style={{ width: `${loadingProgress}%` }}
+          ></div>
+        </div>
+        <p className="text-gray-400 text-xl font-semibold">{Math.round(loadingProgress)}%</p>
+      </div>
+
       <div className="svg flex items-center justify-center fixed top-0 left-0 z-[100] w-full h-screen overflow-hidden bg-[#000]">
       {/*We'll use this class in GSAP to animate and eventually remove() the div.,You’ve created the "black cardboard" that will later have a cutout "VI". 
       ek black color ka div sabse upaar , 
