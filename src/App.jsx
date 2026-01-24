@@ -24,9 +24,9 @@ function App() {
     let loadedCount = 0;
     const totalImages = imagesToPreload.length;
 
-    // Simple 7 second progress bar animation
+    // Simple 11 second progress bar animation
     const startTime = Date.now();
-    const duration = 7000; // 7 seconds in ms
+    const duration = 11000; // 11 seconds in ms
     
     const progressInterval = setInterval(() => {
       const elapsed = Date.now() - startTime;
@@ -166,7 +166,11 @@ function App() {
     x:xMove*1.7
    });
    });
-  },[showContent]);
+
+   return () => {
+     main?.removeEventListener("mousemove", null);
+   };
+  },[showContent, resourcesLoaded]);
   return (
     <>
       {/* Loading Screen */}
@@ -232,7 +236,7 @@ You cannot do this effect using plain HTML + CSS easily.
           */
           }
           <image
-            href="./bg.png"
+            href="/bg.png"
             width="100%"
             height="100%"
             preserveAspectRatio="xMidYMid slice"
