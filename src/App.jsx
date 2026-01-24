@@ -70,7 +70,8 @@ function App() {
    });
             gsap.to(".character",{
   scale:0.8,
-  bottom:"-64%",
+  bottom:"-10%",
+  right:"-10%",
 
   rotate: 0,
   duration:2,
@@ -186,8 +187,8 @@ You cannot do this effect using plain HTML + CSS easily.
      
       <div className="imagesdiv relative overflow-hidden w-full h-screen">
         {/* parent ko relative deni hoti hai to have absolute to child, we are using to overlap these  via absolute */}
-        <img className="sky scale-[1.7] rotate-[-20deg] absolute top-0 left-0 w-full h-full object-cover" src="../public/sky.png" alt="" />
-        <img className="bg scale-[1.5] rotate-[-3deg] absolute top-0 left-0 w-full h-full object-cover" src="../public/bg.png" alt="" />
+        <img className="sky scale-[1.7] rotate-[-20deg] absolute top-0 left-0 w-full h-full object-cover" src="/sky.png" alt="" />
+        <img className="bg scale-[1.5] rotate-[-3deg] absolute top-0 left-0 w-full h-full object-cover" src="/bg.png" alt="" />
            <div className="text text-white flex flex-col gap-5 absolute top-29 left-1/2 ml-9  -translate-x-1/2 scale-[1.4] rotate-[-10deg]" >
         <h1 className="text-[8rem] leading-none -ml-40 "> Grand</h1>
         <h1 className="text-[8rem] leading-none -ml-10 ">Theft</h1>
@@ -196,7 +197,7 @@ You cannot do this effect using plain HTML + CSS easily.
       
       
       </div>
-        <img className="character absolute -bottom-[150%] left-1/2 -translate-x-1/2 scale-[2] rotate-[-10deg]" src="../public/girlbg.png" alt="" />
+        <img className="character absolute bottom-[-10%] right-[-10%] scale-[2] rotate-[-10deg]" src="/girlbg.png" alt="" />
       
       </div>
       <div className="btmbar text-white absolute bottom-0 left-0 w-full py-15 px-10 bg-gradient-to-t from-black to-transparent" >
@@ -204,13 +205,13 @@ You cannot do this effect using plain HTML + CSS easily.
         <i className=" text-2xl ri-arrow-down-line"></i>
         <h3 className=" text-1/2xl font-[Helvetica_Now_Display]" >Scroll Down</h3>
         </div> 
-        <img className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[70px]" src="../public/ps5.png" alt="" />
+        <img className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[70px]" src="/ps5.png" alt="" />
       </div>
     </div>
     <div className="w-full h-screen flex text-white items-center justify-center px-10 py-25 bg-black">
       <div className="cntnr flex w-full h-[80%] " >
         <div className="limg w-1/2 h-full relative">
-        <img className="absolute scale-[1.2] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" src="../public/imag.png" alt="" />
+        <img className="absolute scale-[1.2] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" src="/imag.png" alt="" />
       </div>
       <div className="rg">
         <h1 className="text-7xl">Still running,</h1>
@@ -220,7 +221,7 @@ You cannot do this effect using plain HTML + CSS easily.
         <p className="mt-2 font-[Helvetica_Now_Display]">GTA 6 will introduce dual protagonists, including Lucia, the franchise’s first playable female character. This dynamic allows for a richer narrative and varied gameplay experiences as players switch between two leads with distinct backgrounds and motivations!</p>
           <p className="mt-4  font-[Helvetica_Now_Display] ">For the latest updates on GTA 6 release dates, trailers, and game features, always rely on the official Rockstar website and trusted gaming news outlets. Avoid unofficial sources claiming insider information or early access to beta versions, as these are not legitimate!</p>
           <a href="https://youtu.be/dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer">
-         <div className="bg-yellow-600 mt-5 px-5 py-5 w-[275px] text-black text-4xl whitespace-nowrap">
+         <div className="bg-yellow-600 mt-5 px-8 py-5 inline-block text-black text-4xl font-bold">
    Download Beta
 </div></a>
 
